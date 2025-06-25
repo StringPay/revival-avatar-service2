@@ -14,7 +14,7 @@ try:
 except ImportError as e:
     # This might happen if PYTHONPATH is not set correctly in the environment
     # or if there's an issue within inference_runner.py itself.
-    logging.critical(f"Failed to import process_video_avatar_job: {e}. Ensure PYTHONPATH is set and inference_runner.py is correct.")
+    logging.critical(f"Failed to import process_video_avatar_job: {e}.\nEnsure PYTHONPATH is set and inference_runner.py is correct.\nPYTHONPATH: {os.environ.get('PYTHONPATH')}")
     # We can't proceed if this fails, so raise an error or define a dummy for syntax checking
     def process_video_avatar_job(*args, **kwargs):
         raise RuntimeError("process_video_avatar_job could not be imported.")

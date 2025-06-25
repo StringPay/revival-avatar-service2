@@ -4,6 +4,7 @@ from pathlib import Path
 from loguru import logger
 import imageio
 import torch
+import librosa # New import for audio duration calculation
 # import torch.distributed # Not strictly needed for single inference, can be removed if it causes issues without full distributed setup
 # from torch.utils.data.distributed import DistributedSampler # Not needed for single inference
 # from torch.utils.data import DataLoader # Not needed for single inference
@@ -12,14 +13,14 @@ from argparse import Namespace # To create args object
 from hymm_sp.sample_inference_audio import HunyuanVideoSampler
 # from hymm_sp.data_kits.audio_dataset import VideoAudioTextLoaderVal # Will replace this logic
 from hymm_sp.data_kits.face_align import AlignImage
-from hymm_sp.data_kits.audio_preprocessor import AudioPreprocessor # For audio duration
+# from hymm_sp.data_kits.audio_preprocessor import AudioPreprocessor # For audio duration
 
 from transformers import WhisperModel, AutoFeatureExtractor
 from einops import rearrange
 
 # Attempt to get MODEL_BASE from environment, default to './weights' if not set
 MODEL_BASE = os.environ.get('MODEL_BASE', './weights')
-CPU_OFFLOAD_ENV = os.environ.get('CPU_OFFLOAD', '1')
+CPU_OFFLOAD_ENV = os.environ.get('CPU_OFFLOAD', '0')
 
 # Global cache for models to avoid reloading on every call in a serverless environment
 # However, for RunPod, it's often better to load models inside the handler or a dedicated init function
@@ -145,7 +146,7 @@ def process_video_avatar_job(image_path: str, audio_path: str, output_base_path:
     # This logic might be part of VideoAudioTextLoaderVal or AudioPreprocessor
     # For now, let's simulate getting audio length.
     # AudioPreprocessor from the original repo might be useful here.
-    audio_processor = AudioPreprocessor(sr=args.audio_sample_rate, n_fft=args.audio_n_fft, hop_length=args.audio_hop_length, target_fps=args.sample_fps) # Use sample_fps
+    # audio_processor = AudioPreprocessor(sr=args.audio_sample_rate, n_fft=args.audio_n_fft, hop_length=args.audio_hop_length, target_fps=args.sample_fps) # Use sample_fps
 
     try:
         # This is a simplified way to get num_frames. Original loader has more complex logic.
@@ -168,8 +169,12 @@ def process_video_avatar_job(image_path: str, audio_path: str, output_base_path:
         #   audio_latent_len = audio_len // self.temporal_compression_ratio # Number of latent frames for audio
 
         # Let's try to replicate parts of VideoAudioTextLoaderVal logic for a single item
-        audio_data = audio_processor.read_audio(audio_path, args.audio_sample_rate)
-        duration_sec = len(audio_data) / args.audio_sample_rate
+        try:
+            duration_sec = librosa.get_duration(path=audio_path)
+            logger.info(f"Audio duration calculated using librosa: {duration_sec:.2f} seconds")
+        except Exception as e:
+            logger.error(f"Error getting audio duration for {audio_path}: {e}")
+            duration_sec = 0.0 # Default to 0 if duration cannot be determined
 
         # audio_len here is number of video frames based on audio duration and target FPS for generation
         # This should match how `sample_n_frames` is used.

@@ -6,7 +6,7 @@ FROM pytorch/pytorch:2.1.0-cuda11.8-cudnn8-devel
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/opt/conda/bin/python3.10:$PYTHONPATH
+ENV PYTHONPATH=./:$PYTHONPATH
 ENV MODEL_BASE=/app/weights
 ENV CPU_OFFLOAD=1
 ENV RUNPOD_STREAM_OUTPUT=true

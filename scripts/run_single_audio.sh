@@ -3,7 +3,7 @@ JOBS_DIR=$(dirname $(dirname "$0"))
 export PYTHONPATH=./
 
 export MODEL_BASE=./weights
-OUTPUT_BASEPATH=./results-single
+OUTPUT_BASEPATH=./results
 
 # checkpoint_path=${MODEL_BASE}/ckpts/hunyuan-video-t2v-720p/transformers/mp_rank_00_model_states.pt
 checkpoint_path=${MODEL_BASE}/ckpts/hunyuan-video-t2v-720p/transformers/mp_rank_00_model_states_fp8.pt

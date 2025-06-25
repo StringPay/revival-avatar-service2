@@ -4,6 +4,9 @@ import requests
 import tempfile
 import shutil # For rmtree
 
+# FastAPI and Pydantic imports
+from fastapi import FastAPI, Request, HTTPException
+from pydantic import BaseModel
 
 # Attempt to import the inference function
 try:
@@ -136,26 +139,35 @@ def handler(job):
             except OSError as e_rm_aud:
                 logger.warning(f"Job {job_id}: Could not remove temporary audio file {temp_audio_path}: {e_rm_aud}")
 
+# --- FastAPI Implementation ---
+
+app = FastAPI()
+
+class JobInput(BaseModel):
+    image_url: str
+    audio_url: str
+
+class JobPayload(BaseModel):
+    id: str = "local_test_job_id" # Default value for id
+    input: JobInput
+
+@app.post("/process_video")
+async def process_video_endpoint(job_payload: JobPayload):
+    logger.info(f"Received FastAPI request for job ID: {job_payload.id}")
+    
+    # Convert Pydantic model to dictionary format expected by the original handler
+    job_dict = job_payload.model_dump() # Use .model_dump() for Pydantic v2+
+    
+    result = handler(job_dict)
+    
+    if "error" in result:
+        raise HTTPException(status_code=500, detail=result["error"])
+    
+    return result
 
 if __name__ == "__main__":
-    # This block is for local testing. RunPod calls `handler` directly.
-    logger.info("Starting RunPod handler for local testing...")
-
-    # Example of how you might test locally (requires actual URLs and models):
-    # Ensure MODEL_BASE and CPU_OFFLOAD are set in your local environment if testing this way.
-    # print(f"To test locally, ensure MODEL_BASE is set (currently: {MODEL_BASE_ENV})")
-    # print(f"and necessary model files are present.")
-
-    # test_job_payload = {
-    #     "id": "local_test_001",
-    #     "input": {
-    #          # Use very small, publicly accessible image and audio files for testing download
-    #         "image_url": "https://raw.githubusercontent.com/runpod/runpod-python/main/docs/images/runpod-logo-gradient.png",
-    #         "audio_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" # Example small mp3
-    #     }
-    # }
-    # result = handler(test_job_payload)
-    # print(f"Local test handler result: {result}")
-
-    # For RunPod, the serverless worker starts the handler.
-    # runpod.serverless.start({"handler": handler})
+    # This block is for local testing and running the FastAPI app.
+    # RunPod calls `handler` directly, but for a FastAPI service, uvicorn will start the app.
+    logger.info("Starting FastAPI application with Uvicorn...")
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)

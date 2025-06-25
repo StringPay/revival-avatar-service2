@@ -31,6 +31,8 @@ COPY requirements.txt .
 # Consider --no-cache-dir to reduce image size
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt && \
+    # Install FastAPI and Uvicorn
+    pip install --no-cache-dir fastapi uvicorn && \
     # Specifically install flash-attention as per original README, if not covered by requirements.txt
     # Check if ninja is needed as a build dependency for flash-attention
     pip install --no-cache-dir ninja && \
@@ -48,8 +50,8 @@ huggingface-cli download tencent/HunyuanVideo-Avatar --local-dir ./weights/
 # Copy the rest of the application code
 COPY . .
 
-# Expose the port RunPod expects (though for serverless, CMD is more important)
-# EXPOSE 8080 # Or whatever port runpod.serverless.start uses internally, usually not needed to expose explicitly for serverless
+# Expose the port FastAPI will listen on
+EXPOSE 8000
 
-# Command to run the handler
-CMD ["python", "-u", "handler.py"]
+# Command to run the FastAPI application
+CMD ["uvicorn", "handler:app", "--host", "0.0.0.0", "--port", "8000"]

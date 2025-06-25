@@ -5,13 +5,13 @@ export PYTHONPATH=./
 export MODEL_BASE=./weights
 OUTPUT_BASEPATH=./results
 
-# checkpoint_path=${MODEL_BASE}/ckpts/hunyuan-video-t2v-720p/transformers/mp_rank_00_model_states.pt
-checkpoint_path=${MODEL_BASE}/ckpts/hunyuan-video-t2v-720p/transformers/mp_rank_00_model_states_fp8.pt
+checkpoint_path=${MODEL_BASE}/ckpts/hunyuan-video-t2v-720p/transformers/mp_rank_00_model_states.pt
+# checkpoint_path=${MODEL_BASE}/ckpts/hunyuan-video-t2v-720p/transformers/mp_rank_00_model_states_fp8.pt
 
 
 export DISABLE_SP=1 
 CUDA_VISIBLE_DEVICES=0 python3 hymm_sp/sample_gpu_poor.py \
-    --input 'assets/test.csv' \
+    --input 'assets/test-single.csv' \
     --ckpt ${checkpoint_path} \
     --sample-n-frames 129 \
     --seed 128 \

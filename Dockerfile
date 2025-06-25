@@ -44,7 +44,7 @@ RUN pip install --upgrade pip && \
 # For now, we'll skip this in the Dockerfile and assume weights are mounted or pre-baked by user.
 # If you have a script to download weights, it could be called here:
 # RUN chmod +x ./scripts/download_weights.sh && ./scripts/download_weights.sh
-huggingface-cli download tencent/HunyuanVideo-Avatar --local-dir ./weights/
+RUN huggingface-cli download tencent/HunyuanVideo-Avatar --local-dir ./weights/
 
 
 # Copy the rest of the application code

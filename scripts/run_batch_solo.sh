@@ -6,7 +6,7 @@ export MODEL_BASE=./weights
 OUTPUT_BASEPATH=./results
 checkpoint_path=${MODEL_BASE}/ckpts/hunyuan-video-t2v-720p/transformers/mp_rank_00_model_states.pt
 
-export CPU_OFFLOAD=0
+export CPU_OFFLOAD=1
 CUDA_VISIBLE_DEVICES=0 python3 hymm_sp/sample_gpu_poor.py \
     --input 'assets/batch.csv' \
     --ckpt ${checkpoint_path} \

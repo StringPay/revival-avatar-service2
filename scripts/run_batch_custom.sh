@@ -6,9 +6,9 @@ export MODEL_BASE=./weights
 OUTPUT_BASEPATH=./results
 checkpoint_path=${MODEL_BASE}/ckpts/hunyuan-video-t2v-720p/transformers/mp_rank_00_model_states.pt
 
-
-torchrun --nnodes=1 --nproc_per_node=8 --master_port 29605 hymm_sp/sample_batch.py \
-    --input 'assets/test.csv' \
+export CPU_OFFLOAD=0
+CUDA_VISIBLE_DEVICES=0 python3 hymm_sp/sample_batch.py \
+    --input 'assets/batch.csv' \
     --ckpt ${checkpoint_path} \
     --sample-n-frames 129 \
     --seed 128 \

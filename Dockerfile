@@ -1,8 +1,11 @@
 # Use a RunPod base image with PyTorch and CUDA
 # Check RunPod documentation for recommended images if available.
 # This one is an example, might need adjustment based on specific model CUDA requirements.
-FROM pytorch/pytorch:2.1.0-cuda11.8-cudnn8-devel
-#FROM runpod/pytorch:2.1.0-py3.10-cuda11.8.0-devel-ubuntu22.04
+# FROM pytorch/pytorch:2.1.0-cuda11.8-cudnn8-devel
+# FROM runpod/pytorch:2.1.0-py3.10-cuda11.8.0-devel-ubuntu22.04
+
+# It's actually better to use pytorch==2.4.0, cuda 12.2, python 3.10
+FROM pytorch/pytorch:2.4.0-cuda12.4-cudnn9-devel
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1

@@ -1,1 +1,1 @@
-git pull ; docker build -t revival-avatar-service2 . ; docker run -it --gpus all --rm --name revival-avatar-service2-ctnr revival-avatar-service2
+git pull ; docker build -t revival-avatar-service2 . ; docker run -it -v $(pwd)/results:/app/results --gpus all --rm --name revival-avatar-service2-ctnr revival-avatar-service2

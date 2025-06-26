@@ -8,7 +8,7 @@ FROM pytorch/pytorch:2.1.0-cuda11.8-cudnn8-devel
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=./:$PYTHONPATH
 ENV MODEL_BASE=/app/weights
-ENV CPU_OFFLOAD=1
+ENV CPU_OFFLOAD=0
 ENV RUNPOD_STREAM_OUTPUT=true
 ENV DEBIAN_FRONTEND=noninteractive
 ENV HF_HOME=/app/huggingface_cache
@@ -21,7 +21,7 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
-    git \
+    git nano vim \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the requirements file
@@ -47,8 +47,9 @@ RUN pip install --upgrade pip && \
 RUN huggingface-cli download tencent/HunyuanVideo-Avatar --local-dir ./weights/
 
 
-# Copy the rest of the application code
+# Copy the rest of the application code, make scripts executable
 COPY . .
+RUN chmod +x ./scripts/*.sh
 
 # Expose the port FastAPI will listen on
 EXPOSE 8000

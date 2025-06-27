@@ -11,7 +11,7 @@ CUDA_VISIBLE_DEVICES=0 python3 hymm_sp/sample_gpu_poor.py \
     --input 'assets/batch.csv' \
     --ckpt ${checkpoint_path} \
     --seed 42 \
-    --image-size 1080 \
+    --image-size 960 \
     --cfg-scale 7.5 \
     --infer-steps 200 \
     --use-deepcache 1 \

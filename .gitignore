@@ -2,4 +2,5 @@ __pycache__/
 temp/
 .gradio/
 .idea/
-
+.DS_Store
+*/.DS_Store

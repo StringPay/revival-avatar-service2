@@ -6,15 +6,14 @@ export MODEL_BASE=./weights
 OUTPUT_BASEPATH=./results
 checkpoint_path=${MODEL_BASE}/ckpts/hunyuan-video-t2v-720p/transformers/mp_rank_00_model_states.pt
 
-export CPU_OFFLOAD=0
-CUDA_VISIBLE_DEVICES=0 python3 hymm_sp/sample_batch.py \
+export CPU_OFFLOAD=1
+CUDA_VISIBLE_DEVICES=0 python3 hymm_sp/sample_gpu_poor.py \
     --input 'assets/batch.csv' \
-    --ckpt ${checkpoint_path} \
-    --sample-n-frames 129 \
-    --seed 128 \
-    --image-size 704 \
+    --ckpt ${checkpoint_path} \    
+    --seed 42 \
+    --image-size 1280 \
     --cfg-scale 7.5 \
-    --infer-steps 50 \
+    --infer-steps 200 \
     --use-deepcache 1 \
     --flow-shift-eval-video 5.0 \
     --save-path ${OUTPUT_BASEPATH} 

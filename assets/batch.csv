@@ -1,7 +1,10 @@
 ﻿videoid,image,audio,prompt,fps
-5,assets/image/avatar-image-source-1.png,assets/audio/kore-give-samples.wav,A beauty expert offers samples to a customer.,25
-6,assets/image/avatar-image-source-2.png,assets/audio/kore-give-samples.wav,A beauty expert offers samples to a customer.,25
-7,assets/image/avatar-image-source-3.png,assets/audio/kore-give-samples.wav,A beauty expert offers samples to a customer.,25
-8,assets/image/avatar-image-source-1.png,assets/audio/leda-telehealth.wav,A pharmacists asks her patient if she is feeling well and what is the next step to take.,25
-9,assets/image/avatar-image-source-2.png,assets/audio/leda-telehealth.wav,A pharmacists asks her patient if she is feeling well and what is the next step to take.,25
-10,assets/image/avatar-image-source-3.png,assets/audio/leda-telehealth.wav,A pharmacists asks her patient if she is feeling well and what is the next step to take.,25
+2,assets/image/avatar-image-source-1.png,assets/audio/achernar-greeting.wav,calm professional pharmacist greets a patient at a pharmacy.,25
+3,assets/image/avatar-image-source-2.png,assets/audio/achernar-greeting.wav,calm professional pharmacist greets a patient at a pharmacy.,25
+4,assets/image/avatar-image-source-3.png,assets/audio/achernar-greeting.wav,calm professional pharmacist greets a patient at a pharmacy.,25
+5,assets/image/avatar-image-source-1.png,assets/audio/achernar-kore-give-samples.wav,beauty expert offers samples to a customer.,25
+6,assets/image/avatar-image-source-2.png,assets/audio/achernar-kore-give-samples.wav,beauty expert offers samples to a customer.,25
+7,assets/image/avatar-image-source-3.png,assets/audio/achernar-kore-give-samples.wav,beauty expert offers samples to a customer.,25
+8,assets/image/avatar-image-source-1.png,assets/audio/leda-telehealth.wav,pharmacist asks her patient if she is feeling well and what is the next step to take.,25
+9,assets/image/avatar-image-source-2.png,assets/audio/leda-telehealth.wav,pharmacist asks her patient if she is feeling well and what is the next step to take.,25
+10,assets/image/avatar-image-source-3.png,assets/audio/leda-telehealth.wav,pharmacist asks her patient if she is feeling well and what is the next step to take.,25

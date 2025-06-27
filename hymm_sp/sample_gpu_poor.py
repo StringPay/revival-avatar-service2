@@ -3,6 +3,7 @@ import numpy as np
 from pathlib import Path
 from loguru import logger
 import imageio
+from revival_utils.revival_audio_utils import add_silence_with_librosa
 import torch
 from einops import rearrange
 import torch.distributed
@@ -72,6 +73,13 @@ def main():
         fps = batch["fps"]
         videoid = batch['videoid'][0]
         audio_path = str(batch["audio_path"][0])
+                
+        # Add silence to the audio so the videos generated are not cut off abruptly at the end
+        audio_path_no_ext = audio_path.replace(".wav", "").replace(".WAV", "")
+        audio_path_with_silence = f"{audio_path_no_ext}_with_silence.wav"
+        add_silence_with_librosa(audio_path, audio_path_with_silence)
+        audio_path = audio_path_with_silence
+        
         save_path = args.save_path 
         output_path = f"{save_path}/{videoid}.mp4"
         output_audio_path = f"{save_path}/{videoid}_audio.mp4"

@@ -86,7 +86,12 @@ class HunyuanVideoSampler(Inference):
         prompt = batch['text_prompt'][0]
         image_path = str(batch["image_path"][0])
         audio_path = str(batch["audio_path"][0])
-        neg_prompt = "Aerial view, aerial view, overexposed, low quality, deformation, a poor composition, bad hands, bad teeth, bad eyes, bad limbs, distortion, blurring, Lens changes"
+        
+        if "negative_prompt" in batch:
+            neg_prompt = batch["negative_prompt"][0]
+        else:
+            neg_prompt = "aerial view, overexposed, low quality, deformation, a poor composition, bad hands, bad teeth, bad eyes, bad limbs, distortion, blurring, lens changes, angry, emotional, agitated"
+        
         # videoid = batch['videoid'][0]
         fps = batch["fps"].to(self.device)
         audio_prompts = batch["audio_prompts"].to(self.device)
